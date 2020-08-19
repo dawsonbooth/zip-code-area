@@ -15,7 +15,7 @@ else
 	endif
 endif
 
-FILENAME = PROJECT_NAME-$(VERSION)-$(PLATFORM)
+FILENAME = zip-code-area-$(VERSION)-$(PLATFORM)
 
 BUILDFLAGS = --onefile --name $(FILENAME)
 

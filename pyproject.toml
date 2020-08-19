@@ -1,12 +1,12 @@
 [tool.poetry]
-name = "PROJECT_NAME"
+name = "zip-code-area"
 version = "0.0.3"
 description = ""
 authors = ["Dawson Booth <github@dawsonbooth.com>"]
 license = "MIT"
 readme = "README.md"
-homepage = "https://github.com/dawsonbooth/PROJECT_NAME"
-repository = "https://github.com/dawsonbooth/PROJECT_NAME"
+homepage = "https://github.com/dawsonbooth/zip-code-area"
+repository = "https://github.com/dawsonbooth/zip-code-area"
 keywords = []
 classifiers = [
     "Environment :: Console",
