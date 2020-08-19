@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "zip-code-area"
-version = "0.0.3"
+version = "1.0.0"
 description = ""
 authors = ["Dawson Booth <github@dawsonbooth.com>"]
 license = "MIT"
@@ -20,6 +20,7 @@ include = [
 
 [tool.poetry.dependencies]
 python = "^3.5"
+pyzipcode = "^2.0.0"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.3.2"
