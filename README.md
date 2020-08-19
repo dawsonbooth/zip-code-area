@@ -2,7 +2,7 @@
 
 ## Description
 
-Get sorted list of zip codes and their surrounding zip codes that are within a given radius.
+Get a map of zip codes and their surrounding zip codes that are within a given radius.
 
 ## Installation
 
