@@ -1,30 +1,27 @@
 import argparse
 import re
 from pathlib import Path
-
-from data import load_zip_codes
-
-from typing import Iterable
-
-from zip_code import ZIP_Code
+from typing import Iterable, List
 
 from tqdm import tqdm
 
-ZIP_CODES = load_zip_codes("data/zipcodes.csv")
+from data import load_zip_codes
+from zip_code import ZIP_Code
+
+global ZIP_CODES
 
 
-def parse_zip_codes(body: str, key=lambda z: z.zip_code):
+def parse_zip_codes(body: str, key=lambda z: z.zip_code) -> List[ZIP_Code]:
     return sorted((ZIP_CODES[z] for z in re.findall(r"[0-9]{5}", body)), key=key)
 
 
-def get_surrounding_zip_codes(zip_code: ZIP_Code, radius: int):
-    
+def get_surrounding_zip_codes(zip_code: ZIP_Code, radius: int) -> ZIP_Code:
     for z in tqdm(ZIP_CODES.values()):
         if zip_code.distance(z) <= radius:
             yield z
 
 
-def create_map_url(zip_codes: Iterable, title: str):
+def create_map_url(zip_codes: Iterable, title: str) -> str:
     return f"https://www.randymajors.com/p/customgmap.html?zips={','.join(str(z) for z in zip_codes)}&title={'+'.join(title.split())}"
 
 
@@ -62,6 +59,10 @@ if __name__ == '__main__':
                         help="Provide URL to view zip code boundaries in a map")
     parser.add_argument('--title', type=str, default="Zip Codes",
                         help='Title for map of zip code boundaries')
+    parser.add_argument('--database', type=str, default=str(Path(__file__).joinpath("../../data/zipcodes.csv").resolve()),
+                        help='Title for map of zip code boundaries')
     args = parser.parse_args()
+
+    ZIP_CODES = load_zip_codes(args.database)
 
     exit(main(args.file, args.radius, args.map, args.title))
