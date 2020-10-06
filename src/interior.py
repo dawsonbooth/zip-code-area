@@ -1,4 +1,5 @@
 import argparse
+import concurrent.futures
 from pathlib import Path
 from typing import Iterable, List, Set
 
@@ -11,14 +12,22 @@ from zip_code import ZIPCode
 
 
 def interior(zip_codes: List[ZIPCode], combined_zips: Iterable[ZIPCode], radius: int) -> Set[ZIPCode]:
-    interior_zips = set(combined_zips)
+    surrounding_zips = set()
+
+    def check_zip(z: ZIPCode):
+        if z not in combined_zips:
+            for zip_code in combined_zips:
+                if zip_code not in surrounding_zips and zip_code.distance(z) <= radius:
+                    surrounding_zips.add(zip_code)
+
     if radius > 0:
-        for z in tqdm(zip_codes):
-            if z not in combined_zips:
-                for zip_code in combined_zips:
-                    if zip_code in interior_zips and zip_code.distance(z) <= radius:
-                        interior_zips.remove(zip_code)
-    return interior_zips
+        with tqdm(total=len(zip_codes)) as prog:
+            with concurrent.futures.ThreadPoolExecutor() as e:
+                remove_futures = (e.submit(check_zip, z) for z in zip_codes)
+                for _ in concurrent.futures.as_completed(remove_futures):
+                    prog.update(1)
+
+    return set(z for z in combined_zips if z not in surrounding_zips)
 
 
 def main(f: str, radius: int, _map: bool, title: str) -> int:
