@@ -1,42 +1,40 @@
 import argparse
 from pathlib import Path
-from typing import Iterable, List
+from typing import Iterable, Iterator, List, Set
 
 from tqdm import tqdm
 
-from data import ZIP_CODES, in_states, parse_zip_codes
+from data import ZIP_CODES, in_states, parse_zip_codes, preprocess
+from region import create_region_url
 from zip_code import ZIPCode
 
 
-def create_map_url(zip_codes: Iterable[ZIPCode], title: str) -> str:
-    return f"https://www.randymajors.com/p/customgmap.html?zips={','.join(str(z) for z in zip_codes)}&title={'+'.join(title.split())}"
-
-
-def preprocess(zip_codes: Iterable[ZIPCode]) -> List[ZIPCode]:
-    return list(filter(
-        lambda z: in_states(z, ["TX"]),
-        zip_codes
-    ))
+def surrounding(zip_codes: List[ZIPCode], interior_zips: Iterable[ZIPCode], radius: int) -> Set[ZIPCode]:
+    surrounding_zips = set()
+    if radius > 0:
+        for z in tqdm(zip_codes):
+            if any(zip_code.distance(z) <= radius for zip_code in interior_zips):
+                surrounding_zips.add(z)
+    return surrounding_zips
 
 
 def main(f: str, radius: int, _map: bool, title: str) -> int:
     # Parse zip codes from file
-    initial_zips = parse_zip_codes(Path(f).read_text())
+    interior_zips = set(parse_zip_codes(Path(f).read_text()))
 
-    # Create set of all zip codes
-    all_zips = set(initial_zips)
+    # Load all zip codes
+    all_zips = list(preprocess(ZIP_CODES.values()))
 
-    if radius > 0:
-        for z in tqdm(preprocess(ZIP_CODES.values())):
-            if any(zip_code.distance(z) <= radius for zip_code in initial_zips):
-                all_zips.add(z)
+    # Get surrounding zip codes
+    combined_zips = interior_zips.union(
+        surrounding(all_zips, interior_zips, radius))
 
     if _map:
         # Print URL to map of zip code boundaries
-        print(create_map_url(all_zips, title))
+        print(create_region_url(combined_zips, title))
     else:
         # Print sorted set of all zip codes
-        print("\n".join(sorted(str(z) for z in all_zips)))
+        print("\n".join(sorted(str(z) for z in combined_zips)))
 
     # Finish with no errors
     return 0
