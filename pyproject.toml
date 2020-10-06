@@ -20,7 +20,6 @@ include = [
 
 [tool.poetry.dependencies]
 python = "^3.5"
-pyzipcode = "^2.0.0"
 geopy = "^2.0.0"
 tqdm = "^4.48.2"
 
