@@ -3,7 +3,7 @@ import re
 from pathlib import Path
 from typing import List, Iterable
 
-from zip_code import ZIPCode
+from .zip_code import ZIPCode
 
 
 def in_states(zip_code: ZIPCode, states: List[str]) -> bool:

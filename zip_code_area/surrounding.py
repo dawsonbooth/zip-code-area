@@ -1,14 +1,12 @@
-import argparse
 import concurrent.futures
-from concurrent import futures
 from pathlib import Path
 from typing import Iterable, List, Set
 
 from tqdm import tqdm
 
-from data import ZIP_CODES, parse_zip_codes, preprocess
-from map import create_map_url
-from zip_code import ZIPCode
+from .data import ZIP_CODES, parse_zip_codes, preprocess
+from .map import create_map_url
+from .zip_code import ZIPCode
 
 
 def surrounding(zip_codes: List[ZIPCode], interior_zips: Iterable[ZIPCode], radius: int) -> Set[ZIPCode]:
@@ -48,20 +46,3 @@ def main(f: str, radius: int, _map: bool, title: str) -> int:
 
     # Finish with no errors
     return 0
-
-
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser(
-        description='')
-    parser.add_argument('file', type=str,
-                        help='Path to file that contains list of zip codes')
-    parser.add_argument('--radius', type=int, default=0,
-                        help='Search radius for surrounding zip codes')
-    parser.add_argument('--map', action="store_true",
-                        help="Provide URL to view zip code boundaries in a map")
-    parser.add_argument('--title', type=str, default="Zip Codes",
-                        help='Title for map of zip code boundaries')
-
-    args = parser.parse_args()
-
-    exit(main(args.file, args.radius, args.map, args.title))
