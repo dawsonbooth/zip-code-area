@@ -1,5 +1,4 @@
 import concurrent.futures
-from pathlib import Path
 from typing import Iterable, List, Set
 
 from tqdm import tqdm
@@ -28,9 +27,9 @@ def interior(zip_codes: List[ZIPCode], combined_zips: Iterable[ZIPCode], radius:
     return set(z for z in combined_zips if z not in surrounding_zips)
 
 
-def main(f: str, radius: int, _map: bool, title: str) -> int:
+def main(body: str, radius: int, _map: bool, title: str) -> int:
     # Parse zip codes from file
-    combined_zips = parse_zip_codes(Path(f).read_text())
+    combined_zips = parse_zip_codes(body)
 
     # Load all zip codes
     all_zips = list(preprocess(ZIP_CODES.values()))

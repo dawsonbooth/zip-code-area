@@ -1,5 +1,4 @@
 import concurrent.futures
-from pathlib import Path
 from typing import Iterable, List, Set
 
 from tqdm import tqdm
@@ -26,9 +25,9 @@ def surrounding(zip_codes: List[ZIPCode], interior_zips: Iterable[ZIPCode], radi
     return surrounding_zips
 
 
-def main(f: str, radius: int, _map: bool, title: str) -> int:
+def main(body: str, radius: int, _map: bool, title: str) -> int:
     # Parse zip codes from file
-    interior_zips = set(parse_zip_codes(Path(f).read_text()))
+    interior_zips = set(parse_zip_codes(body))
 
     # Load all zip codes
     all_zips = list(preprocess(ZIP_CODES.values()))

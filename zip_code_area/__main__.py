@@ -1,5 +1,6 @@
 import argparse
 import sys
+from pathlib import Path
 
 from .interior import main as main_interior
 from .map import main as main_map
@@ -34,7 +35,8 @@ class ParseArguments:
 
         args = parser.parse_args(sys.argv[2:])
 
-        exit(main_interior(args.file, args.radius, args.map, args.title))
+        exit(main_interior(Path(args.file).read_text(),
+                           args.radius, args.map, args.title))
 
     def surrounding(self):
         parser = argparse.ArgumentParser(
@@ -50,7 +52,8 @@ class ParseArguments:
 
         args = parser.parse_args(sys.argv[2:])
 
-        exit(main_surrounding(args.file, args.radius, args.map, args.title))
+        exit(main_surrounding(Path(args.file).read_text(),
+                              args.radius, args.map, args.title))
 
     def map(self):
         parser = argparse.ArgumentParser(
@@ -62,7 +65,7 @@ class ParseArguments:
 
         args = parser.parse_args(sys.argv[2:])
 
-        exit(main_map(args.file, args.title))
+        exit(main_map(Path(args.file).read_text(), args.title))
 
 
 def main() -> int:
