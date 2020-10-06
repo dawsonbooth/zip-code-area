@@ -6,12 +6,8 @@ from typing import List
 from zip_code import ZIPCode
 
 
-def in_states(row, states: List[str]):
-    return row[2] in states
-
-
-def is_acceptable(row):
-    return in_states(row, ["TX"])
+def in_states(zip_code: ZIPCode, states: List[str]) -> bool:
+    return zip_code.state in states
 
 
 def load_zip_codes(filename):
@@ -20,7 +16,7 @@ def load_zip_codes(filename):
 
     zip_codes = dict()
 
-    for row in filter(is_acceptable, reader):
+    for row in reader:
         zip_codes[row[0]] = ZIPCode(*row)
 
     return zip_codes
