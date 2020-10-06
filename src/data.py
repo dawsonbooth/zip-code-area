@@ -1,13 +1,19 @@
 import csv
 import re
 from pathlib import Path
-from typing import List
+from typing import List, Iterable
 
 from zip_code import ZIPCode
 
 
 def in_states(zip_code: ZIPCode, states: List[str]) -> bool:
     return zip_code.state in states
+
+def preprocess(zip_codes: Iterable[ZIPCode]) -> List[ZIPCode]:
+    return list(filter(
+        lambda z: in_states(z, ["TX", "OK"]),
+        zip_codes
+    ))
 
 
 def load_zip_codes(filename):
