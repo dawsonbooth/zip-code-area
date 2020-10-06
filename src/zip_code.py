@@ -3,7 +3,7 @@ from __future__ import annotations
 import geopy.distance
 
 
-class ZIP_Code:
+class ZIPCode:
     __slots__ = 'zip_code', 'city', 'state', 'latitude', 'longitude', 'classification', 'population'
     zip_code: str
     city: str
@@ -28,7 +28,7 @@ class ZIP_Code:
     def __str__(self):
         return self.zip_code
 
-    def distance(self, other: ZIP_Code) -> float:
+    def distance(self, other: ZIPCode) -> float:
         return geopy.distance.GeodesicDistance(
             (self.latitude, self.longitude),
             (other.latitude, other.longitude)
