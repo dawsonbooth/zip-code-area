@@ -1,21 +1,22 @@
 import argparse
 from pathlib import Path
-from typing import Iterable
+from typing import Iterable, Iterator
 
 from tqdm import tqdm
 
-from data import ZIP_CODES, parse_zip_codes
+from data import ZIP_CODES, parse_zip_codes, in_states
 from zip_code import ZIPCode
 
 
-def get_surrounding_zip_codes(zip_code: ZIPCode, radius: int) -> ZIPCode:
-    for z in tqdm(ZIP_CODES.values()):
-        if zip_code.distance(z) <= radius:
-            yield z
-
-
-def create_map_url(zip_codes: Iterable, title: str) -> str:
+def create_map_url(zip_codes: Iterable[ZIPCode], title: str) -> str:
     return f"https://www.randymajors.com/p/customgmap.html?zips={','.join(str(z) for z in zip_codes)}&title={'+'.join(title.split())}"
+
+
+def preprocess(zip_codes: Iterable[ZIPCode]) -> Iterator[ZIPCode]:
+    return list(filter(
+        lambda z: in_states(z, ["TX"]),
+        zip_codes
+    ))
 
 
 def main(f: str, radius: int, _map: bool, title: str) -> int:
@@ -26,9 +27,9 @@ def main(f: str, radius: int, _map: bool, title: str) -> int:
     all_zips = set(initial_zips)
 
     if radius > 0:
-        for z in tqdm(initial_zips):
-            for s in get_surrounding_zip_codes(z, radius):
-                all_zips.add(s)
+        for z in tqdm(preprocess(ZIP_CODES.values())):
+            if any(zip_code.distance(z) <= radius for zip_code in initial_zips):
+                all_zips.add(z)
 
     if _map:
         # Print URL to map of zip code boundaries
