@@ -5,9 +5,8 @@ from typing import Iterable, List, Set
 
 from tqdm import tqdm
 
-from data import ZIP_CODES, in_states, parse_zip_codes, preprocess
+from data import ZIP_CODES, parse_zip_codes, preprocess
 from map import create_map_url
-from surrounding import surrounding
 from zip_code import ZIPCode
 
 

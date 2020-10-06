@@ -1,12 +1,12 @@
 import argparse
-from concurrent import futures
 import concurrent.futures
+from concurrent import futures
 from pathlib import Path
-from typing import Iterable, Iterator, List, Set
+from typing import Iterable, List, Set
 
 from tqdm import tqdm
 
-from data import ZIP_CODES, in_states, parse_zip_codes, preprocess
+from data import ZIP_CODES, parse_zip_codes, preprocess
 from map import create_map_url
 from zip_code import ZIPCode
 
