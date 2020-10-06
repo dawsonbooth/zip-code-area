@@ -5,7 +5,7 @@ from typing import Iterable, List, Set
 from tqdm import tqdm
 
 from data import ZIP_CODES, in_states, parse_zip_codes, preprocess
-from region import create_region_url
+from map import create_map_url
 from surrounding import surrounding
 from zip_code import ZIPCode
 
@@ -33,7 +33,7 @@ def main(f: str, radius: int, _map: bool, title: str) -> int:
 
     if _map:
         # Print URL to map of zip code boundaries
-        print(create_region_url(interior_zips, title))
+        print(create_map_url(interior_zips, title))
     else:
         # Print sorted set of all zip codes
         print("\n".join(sorted(str(z) for z in interior_zips)))
