@@ -65,5 +65,11 @@ class ParseArguments:
         exit(main_map(args.file, args.title))
 
 
-if __name__ == '__main__':
+def main() -> int:
     ParseArguments()
+
+    return 0
+
+
+if __name__ == '__main__':
+    exit(main())
