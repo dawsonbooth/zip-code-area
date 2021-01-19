@@ -18,10 +18,10 @@ def load_zip_codes(filename):
     return zip_codes
 
 
-ZIP_CODES = load_zip_codes(str(
-    Path(__file__).parent.joinpath("./zipcodes.csv").resolve()
-))
+ZIP_CODES = load_zip_codes(str(Path(__file__).parent.joinpath("./zipcodes.csv").resolve()))
 
 
 def parse_zip_codes(body: str, key=lambda z: z.zip_code) -> List[ZIPCode]:
-    return sorted(filter(lambda z: z is not None, (ZIP_CODES.get(z, None) for z in re.findall(r"[0-9]{5}", body))), key=key)
+    return sorted(
+        filter(lambda z: z is not None, (ZIP_CODES.get(z, None) for z in re.findall(r"[0-9]{5}", body))), key=key
+    )

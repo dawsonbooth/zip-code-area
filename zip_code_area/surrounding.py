@@ -33,8 +33,7 @@ def main(body: str, radius: int, _map: bool, title: str) -> int:
     all_zips = list(ZIP_CODES.values())
 
     # Get surrounding zip codes
-    combined_zips = interior_zips.union(
-        surrounding(all_zips, interior_zips, radius))
+    combined_zips = interior_zips.union(surrounding(all_zips, interior_zips, radius))
 
     if _map:
         # Print URL to map of zip code boundaries

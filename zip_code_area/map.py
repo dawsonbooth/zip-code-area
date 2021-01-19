@@ -5,7 +5,8 @@ from .zip_code import ZIPCode
 
 
 def create_map_url(zip_codes: Iterable[ZIPCode], title: str) -> str:
-    return f"https://www.randymajors.com/p/customgmap.html?zips={','.join(str(z) for z in zip_codes)}&title={'+'.join(title.split())}"
+    zips = ",".join(str(z) for z in zip_codes)
+    return f"https://www.randymajors.com/p/customgmap.html?zips={zips}&title={title}"
 
 
 def main(body: str, title: str) -> int:

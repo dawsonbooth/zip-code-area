@@ -17,8 +17,18 @@ def clean(c):
 
 
 @task
+def format(c):
+    c.run("black zip_code_area --line-length 119")
+
+
+@task
 def lint(c):
-    c.run("pylint zip_code_area")
+    c.run("flake8 zip_code_area --max-line-length 119 --extend-ignore E203")
+
+
+@task
+def type_check(c):
+    c.run("mypy -m zip_code_area --ignore-missing-imports")
 
 
 @task

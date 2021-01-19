@@ -4,7 +4,7 @@ import geopy.distance
 
 
 class ZIPCode:
-    __slots__ = 'zip_code', 'city', 'state', 'latitude', 'longitude', 'classification', 'population'
+    __slots__ = "zip_code", "city", "state", "latitude", "longitude", "classification", "population"
     zip_code: str
     city: str
     state: str
@@ -13,7 +13,16 @@ class ZIPCode:
     classification: str
     population: int
 
-    def __init__(self, zip_code: str, city: str, state: str, latitude: float, longitude: float, classification: str, population: int):
+    def __init__(
+        self,
+        zip_code: str,
+        city: str,
+        state: str,
+        latitude: float,
+        longitude: float,
+        classification: str,
+        population: int,
+    ):
         self.zip_code = zip_code
         self.city = city
         self.state = state
@@ -30,6 +39,5 @@ class ZIPCode:
 
     def distance(self, other: ZIPCode) -> float:
         return geopy.distance.GeodesicDistance(
-            (self.latitude, self.longitude),
-            (other.latitude, other.longitude)
+            (self.latitude, self.longitude), (other.latitude, other.longitude)
         ).miles
